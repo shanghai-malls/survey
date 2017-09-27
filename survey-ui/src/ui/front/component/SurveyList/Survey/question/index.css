@@ -1,0 +1,163 @@
+
+/**Question组件（去掉bootstrap panel默认的边框和边框圆角样式）*/
+.question {
+    margin-top: 20px;
+}
+
+.question > *{
+    margin-top: 5px;
+    margin-left:10px;
+    margin-right:10px;
+}
+
+.question-heading {
+
+}
+
+/**Question组件的标题*/
+.question > .question-heading > .question-title .required::after {
+    display: inline-block;
+    margin-left: 4px;
+    content: "*";
+    line-height: 1;
+    font-size: 12px;
+    color: orangered;
+}
+
+/**标题图片容器*/
+.question-ic{
+    padding: 0.15rem;
+    background-color: #fff;
+    box-shadow: 0 3px 12px #AAAEAE;
+    border-radius: 4px;
+}
+
+/**标题图片*/
+.question-ic > img {
+    width: 100%;
+    border-radius: 4px;
+}
+
+.question-body {
+    margin-top: 10px;
+    background-color: #fff;
+    box-shadow: 0 3px 12px #aaaeae;
+    border-radius: 6px;
+}
+
+/**optional组件*/
+ul.optional li.x-list-item{
+    border-top: none;
+    box-shadow: none !important;
+}
+ul.optional li.x-list-item:first-child{
+    border-top: none;
+}
+ul.optional li.x-list-item label{
+    width: 100%;
+}
+
+ul.optional .optional-input{
+    margin-left: 10px;
+    border:none;
+    width: 5rem;
+    max-width: 600px;
+    border-bottom: 1px solid #bbbbbb;
+    padding-left: 8px;
+    color: #000;
+}
+
+ul.optional .optional-input:focus{
+    border:none;
+    outline: none;
+    box-shadow: none;
+    border-bottom: 1px solid #bbbbbb;
+}
+ul.optional .optional-input::placeholder {
+    color: #aaa;
+    opacity: 1;
+}
+
+
+div.optional{
+    padding: 0.15rem 0.25rem;
+}
+
+/**select组件*/
+.select > input.form-control{
+    box-shadow: none !important;
+    border-radius: 6px !important;
+}
+
+/**textarea组件*/
+.textarea > * {
+    box-shadow: none !important;
+    border-radius: 6px !important;
+    height: 200px;
+    resize: none;
+}
+.textarea > textarea{
+    height: 120px !important;
+    padding-top: 12px;
+}
+
+.textarea .rq-container .rq-editor{
+    height: 180px;
+    border:none;
+}
+.textarea .ql-container.ql-snow{
+    border:none;
+}
+.textarea .ql-toolbar.ql-snow {
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+/**text组件*/
+.text > input.form-control{
+    box-shadow: none !important;
+    border-radius: 6px !important;
+}
+
+/**display组件*/
+.display{
+    padding: 0.15rem;
+    background-color: white;
+}
+.display > *{
+    width: 100%;
+    border-radius: 6px !important;
+    padding:0;
+    margin:0;
+}
+/**geo组件*/
+.geo{
+    padding: 0.15rem;
+    background-color: white;
+}
+.geo .result-panel{
+    border:1px solid #C0C0C0;
+    width:150px;
+    height:auto;
+    display:none;
+}
+
+/**uploader组件*/
+.uploader{
+    padding: 0.15rem;
+    background-color: white;
+}
+.uploader .file-list{
+    margin-top:5px;
+}
+/**share组件*/
+.share{
+    padding: 0.15rem;
+    background-color: white;
+}
+.ranking {
+    padding: 0.15rem;
+}

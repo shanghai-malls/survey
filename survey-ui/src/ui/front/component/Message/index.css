@@ -1,0 +1,20 @@
+#global-message-container {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    width: 375px;
+    left:50%;
+    margin-left:-188px;
+}
+
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}

@@ -1,0 +1,27 @@
+
+.x-list-group-container{
+    background-color: rgba(255, 255, 255, 0.9);
+    padding-top: 18px;
+    min-height: 686px;
+}
+.x-list-group-container >h3{
+    text-align: center;
+}
+.x-list-group{
+    list-style-type: none;
+    padding: 0;
+}
+.x-list-item {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    border-top:1px solid #ddd;
+    border-bottom: 1px solid #ddd
+}
+.x-list-group-container > p.list-bottom-banner{
+    text-align: center;
+    margin: 0;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}

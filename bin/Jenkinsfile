@@ -1,0 +1,36 @@
+#!groovy
+pipeline {
+    agent {
+        label 'master'
+    }
+    parameters {
+        string(name: 'profile', defaultValue: 'test', description: '选择一个profile')
+    }
+    stages {
+        stage('build') {
+            steps {
+                echo "workspace path:::::::::::::::::::::::::::::::::::${env.WORKSPACE}"
+                sh "npm --prefix ${env.WORKSPACE}/survey/survey-ui install"
+                sh "npm --prefix ${env.WORKSPACE}/survey/survey-ui run build"
+                sh "mvn clean install -P${params.profile} -f ${env.WORKSPACE}"
+            }
+        }
+        stage('deploy') {
+            steps {
+                archiveArtifacts artifacts: '**/target/*.jar'
+                echo "::::::::::::::::::::::Copy artifacts to ${env.WORKSPACE}/bin :::::::::::::::::::::::::::::"
+                sh "cp -f ${env.WORKSPACE}/infrastructure/eureka-server/target/eureka-server.jar ${env.WORKSPACE}/bin"
+                sh "cp -f ${env.WORKSPACE}/infrastructure/config-server/target/config-server.jar ${env.WORKSPACE}/bin"
+                sh "cp -f ${env.WORKSPACE}/infrastructure/tenant-server/target/tenant-server.jar ${env.WORKSPACE}/bin"
+                sh "cp -f ${env.WORKSPACE}/survey/survey/target/survey.jar ${env.WORKSPACE}/bin"
+                sh "cp -f ${env.WORKSPACE}/survey/gateway/target/gateway.jar ${env.WORKSPACE}/bin"
+            }
+        }
+        stage('start service') {
+            steps {
+                echo 'Start service:::::::::::::::::::::::::::::::::::::::::::::::::::::'
+                //sh 'pgrep -f "${pwd}/bin" | xargs kill'
+            }
+        }
+    }
+}

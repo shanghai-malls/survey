@@ -1,0 +1,26 @@
+/**底部tab导航栏*/
+.footer-nav{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    z-index: 100;
+    background-color: #fff;
+    height: 50px;
+    border-top: 1px solid #d9d9d9;
+}
+.footer-nav nav {
+    flex: 1;
+    text-align: center;
+    vertical-align: middle;
+}
+.footer-nav .active{
+    color: orangered;
+}
+
+.footer-nav .glyphicon {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 20px;
+}

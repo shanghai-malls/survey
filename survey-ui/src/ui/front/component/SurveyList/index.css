@@ -1,0 +1,9 @@
+.x-list-item p{
+    margin-right:100px;
+}
+.x-list-item .btn{
+    position: absolute;
+    top:68px;
+    right:15px;
+}
+

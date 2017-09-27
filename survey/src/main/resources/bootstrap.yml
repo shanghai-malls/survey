@@ -1,0 +1,11 @@
+spring:
+  profiles:
+      active:
+        - @active-profile@
+  cloud:
+    config:
+      name: survey
+      uri: http://@config-server-ip@:8888
+
+  tenant:
+    multi: true

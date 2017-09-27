@@ -1,0 +1,8 @@
+spring:
+  profiles:
+      active:
+        - @active-profile@
+  cloud:
+    config:
+      name: gateway
+      uri: http://@config-server-ip@:8888
