@@ -1,10 +1,9 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import "./index.css";
-import {http} from '../../../utils'
+import {http,querystring} from '../../../utils'
 import * as api from "../../../store/api";
 import {Message} from "../../Message";
-
 
 class SurveyResponseApp extends Component {
 
@@ -13,25 +12,44 @@ class SurveyResponseApp extends Component {
             survey:{questions:[],setting:{}},
 			responses:[],
             displayOptions:{
-                filtered:[]
+                filtered:[],
+                display:'input'
 			}
 		});
 	}
+	getDisplayOptionsFromSearch(filtered){
+        const search = querystring.parse(this.props.location.search);
+        if(search) {
+            const keys = Object.keys(search);
+            if(filtered.length > 0) {
+                let filteredQuestion = filtered.find(q=>q.code === keys[0]), value = search[keys[0]];
+                if(filteredQuestion) {
+                    let displayOptions = this.getDisplayOptions(filteredQuestion);
+                    displayOptions.filtered = filtered;
+                    displayOptions.value = value;
+                    return displayOptions;
+                }
+            }
+        }
+        return {filtered,display:'input'};
+    }
     componentDidMount() {
-    	let surveyId = this.props.match.params.surveyId;
-    	let pathname = this.props.location.pathname;
 
-        let fetchSurveyUrl = api.normalize(`${api.API_PREFIX}/surveys/${surveyId}?projection=full`);
-		let fetResponsesUrl = api.normalize(`${api.API_PREFIX}/${pathname}`);
+        const surveyId = this.props.match.params.surveyId;
+        const pathname = this.props.location.pathname;
+
+        const fetchSurveyUrl = api.normalize(`${api.API_PREFIX}/surveys/${surveyId}?projection=full`);
+        const fetResponsesUrl = api.normalize(`${api.API_PREFIX}/${pathname}`);
     	http.get(fetchSurveyUrl).then(survey=>{
             return http.get(fetResponsesUrl).then(({_embedded})=>{
                 let filtered = survey.questions.filter(question=> question.type ==='RADIO' || question.type ==='SELECT' || question.type.endsWith("_INPUT"));
-                let displayOptions = {filtered};
-                if(filtered.length > 0) {
-                    displayOptions = this.getDisplayOptions(filtered[0]);
-                    displayOptions.filtered = filtered;
-				}
+                let displayOptions = {filtered,display:'input'};
                 this.setState({survey,displayOptions, ... _embedded});
+
+                let searchDisplayOptions =  this.getDisplayOptionsFromSearch(filtered);
+                if(searchDisplayOptions.value) {
+                    this.filterResponse(searchDisplayOptions)
+                }
             });
 		}).catch(error=>{
 			Message.error(error)
@@ -125,6 +143,9 @@ class SurveyResponseApp extends Component {
 	}
 
     getDisplayOptions(question){
+	    if(!question) {
+	        return {display:'input'};
+        }
         let display,options,questionId = question.id;
         if( question.type ==='RADIO' || question.type ==='SELECT'){
             display = 'select';
@@ -136,10 +157,10 @@ class SurveyResponseApp extends Component {
     }
 
     changeQuestion(event){
-        const value = event.target.value;
+        let value = event.target.value;
         if (value ){
-            const question = this.state.survey.questions.find(q=>String(q.id) === value);
-            const displayOptions = this.getDisplayOptions(question);
+            let question = this.state.survey.questions.find(q=>String(q.id) === value);
+            let displayOptions = this.getDisplayOptions(question);
             displayOptions.filtered = this.state.displayOptions.filtered;
             displayOptions.submitTime = this.state.displayOptions.submitTime;
             this.filterResponse(displayOptions);
@@ -147,33 +168,62 @@ class SurveyResponseApp extends Component {
     }
 
     changeAnswer(event){
-        const displayOptions = this.state.displayOptions;
+        let displayOptions = {...this.state.displayOptions};
         displayOptions.value = event.target.value;
         this.filterResponse(displayOptions);
 
     }
     changeDate(event){
-        const displayOptions = this.state.displayOptions;
+        let displayOptions = {...this.state.displayOptions};
         displayOptions.submitTime = event.target.value;
         this.filterResponse(displayOptions);
     }
+
     filterResponse(displayOptions){
         let {questionId,value,submitTime} = displayOptions;
-        this.state.responses.forEach(r=>{
-            let matchesItem = r.items.find(i=>{
-                let result = i.questionId === questionId && i.value === value || !value;
-                if(submitTime && result) {
-                    result = new Date(i.submitTime).toLocaleDateString() === new Date(submitTime).toLocaleDateString();
-                }
-                return result;
+        let conditions = {};
+        if(this.state.displayOptions.submitTime !== submitTime) {
+            this.state.responses.forEach(r=>{
+                const submitTimeMatches = new Date(r.submitTime).toLocaleDateString() === new Date(submitTime).toLocaleDateString();
+                r.display = submitTimeMatches ? 'show' : 'hide';
             });
-            r.display = matchesItem ? 'show' : 'hide';
+
+            conditions.submitTime = submitTime;
+        }
+
+        if( questionId === this.state.displayOptions.questionId ) {
+            if( value && value !== this.state.displayOptions.value) {
+                conditions.value = value;
+
+            }
+        } else {
+            if( value) {
+                conditions.value = value;
+            }
+        }
+
+        this.state.responses.forEach(r=>{
+            r.display = 'show';
+            if(conditions.submitTime) {
+                if(new Date(r.submitTime).toLocaleDateString() !== new Date(conditions.submitTime).toLocaleDateString()) {
+                    r.display = 'hide';
+                }
+            }
+            if(conditions.value) {
+                if(r.display === 'show') {
+                    let matchesItem = r.items.find(i=>{
+                        return i.questionId === questionId && i.value === value;
+                    });
+                    r.display = matchesItem ? 'show' : 'hide';
+                }
+            }
         });
+
         this.setState({...this.state,displayOptions})
     }
 
 	render(){
-		const {filtered,display,options} = this.state.displayOptions;
+		const {filtered,display,options,questionId,value} = this.state.displayOptions;
 		return (
 			<div className="table-responsive survey-response">
 				<form className="form-inline">
@@ -185,7 +235,7 @@ class SurveyResponseApp extends Component {
 						<label className="control-label">选择问题：</label>
 						<select className="form-control" ref="question" onChange={this.changeQuestion.bind(this)}>
 							<option>--选择问题--</option>
-							{filtered.map(q=><option value={q.id} key={q.id}>{q.title}</option>)}
+							{filtered.map(q=><option value={q.id} key={q.id} selected={questionId === q.id}>{q.title}</option>)}
 						</select>
 					</div>
 					<div className="form-group">
@@ -197,7 +247,7 @@ class SurveyResponseApp extends Component {
 									{options.map(q=><option value={q.value} key={q.value}>{q.label}</option>)}
 								</select>
 								:
-                                display === 'input' ? <input ref="answer" className="form-control" onChange={this.changeAnswer.bind(this)} /> : ''
+                                display === 'input' ? <input ref="answer" className="form-control" onChange={this.changeAnswer.bind(this)} value={value} /> : ''
 						}
 
 					</div>

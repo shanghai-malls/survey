@@ -3,9 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.syj.platform</groupId>
-		<artifactId>platform-parent</artifactId>
+		<artifactId>saas-platform-boot-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+
 	<groupId>com.jikezhiji.platform</groupId>
 	<artifactId>survey-parent</artifactId>
 	<packaging>pom</packaging>

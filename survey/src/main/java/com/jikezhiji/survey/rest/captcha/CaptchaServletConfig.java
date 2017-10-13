@@ -18,7 +18,7 @@ public class CaptchaServletConfig {
 
     @Bean
     public ServletRegistrationBean captchaServletRegistration() {
-        ServletRegistrationBean registration = new ServletRegistrationBean(proxy, "/captcha/*");
+        ServletRegistrationBean registration = new ServletRegistrationBean(proxy, "/api/captcha/*");
         registration.setName(DEFAULT_CAPTCHA_SERVLET_BEAN_NAME);
         registration.addInitParameter(Constants.KAPTCHA_BORDER,"no");
         registration.addInitParameter(Constants.KAPTCHA_IMAGE_WIDTH,"106");

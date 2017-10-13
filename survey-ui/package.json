@@ -29,5 +29,13 @@
         "test": "react-scripts test --env=jsdom",
         "eject": "react-scripts eject"
     },
-    "webpack":"src/webpack.apply.js"
+    "proxy":{
+        "api": {
+            "target": "http://localhost:50000/",
+            "pathRewrite": {
+                "^/api": "/api"
+            }
+        }
+    },
+    "webpack": "src/webpack.apply.js"
 }

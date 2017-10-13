@@ -170,7 +170,7 @@ class SurveyApp extends Component {
     }
 
     static refreshCaptcha(event){
-        event.target.src = `/captcha/${new Date().getTime()}`
+        event.target.src = `/api/captcha/${new Date().getTime()}`
     }
 
     startOrContinue(){
@@ -267,7 +267,7 @@ class SurveyApp extends Component {
                         survey.setting.enableCaptcha?
                             <div className="captcha-container">
                                 <input placeholder="请输入验证码"/>
-                                <img src={`/captcha/${new Date().getTime()}`} onClick={SurveyApp.refreshCaptcha} alt="验证码"/>
+                                <img src={`/api/captcha/${new Date().getTime()}`} onClick={SurveyApp.refreshCaptcha} alt="验证码"/>
                             </div>
                             :
                             <div className="captcha-container" />

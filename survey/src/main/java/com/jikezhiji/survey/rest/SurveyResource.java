@@ -1,5 +1,6 @@
 package com.jikezhiji.survey.rest;
 
+import com.google.common.base.Objects;
 import com.jikezhiji.survey.domain.*;
 import com.jikezhiji.survey.domain.embedded.AccessRule;
 import com.jikezhiji.survey.domain.embedded.Answer;
@@ -13,6 +14,9 @@ import com.jikezhiji.survey.rest.security.AbstractPrincipal;
 import com.jikezhiji.survey.rest.security.JwtAuthenticationToken;
 import com.jikezhiji.survey.rest.value.UnfilledQuestions;
 import com.jikezhiji.survey.util.Lists;
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
@@ -359,10 +363,8 @@ public class SurveyResource {
                                             Principal principal) {
         SurveyResponse response = validateResponse(surveyId,responseId,principal);
         Survey survey = validateSurvey(repository.findOne(surveyId));
-
         //检查答案是否合法
         items.forEach(item-> checkAndPutItemInResponse(survey, response,  item));
-
         List<Quota> quotas = quotaRepository.findAll(Example.of(new Quota(surveyId)));
         List<SurveyResponse> responses = responseRepository.findAll(Example.of(new SurveyResponse(surveyId)));
 
