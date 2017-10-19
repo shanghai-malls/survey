@@ -1,0 +1,3 @@
+
+spring.datasource.dbAutoCreate: true
+spring.datasource.scriptType: versioned

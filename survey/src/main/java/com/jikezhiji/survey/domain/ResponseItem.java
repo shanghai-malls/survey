@@ -25,6 +25,9 @@ public class ResponseItem implements JacksonSerializable {
 	@Column(name = "QUESTION_ID")
 	private Long questionId;
 
+	@Column(name = "CODE")
+	private String code;
+
 	@Column(name = "VALUE",length = 512)
 	@JsonUnwrapped
 	@Convert(converter = AnswerConverter.class)
@@ -51,6 +54,14 @@ public class ResponseItem implements JacksonSerializable {
 
 	public void setQuestionId(Long questionId) {
 		this.questionId = questionId;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(final String code) {
+		this.code = code;
 	}
 
 	public Answer getValue() {

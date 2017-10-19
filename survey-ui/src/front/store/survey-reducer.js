@@ -77,7 +77,7 @@ function Survey(input = SURVEY_VIEW_INIT_STATE,action){
                     responseItems.splice(i,1,fillResponseItem(responseItem,state,responseItems[i]));
                 }
             }
-            //表示已经覆盖了，负责则push进去
+            //表示已经覆盖了，否则push进去
             if(!responseItem.responseId) {
                 responseItems.push(fillResponseItem(responseItem,state));
             }
@@ -117,6 +117,7 @@ function mapQuestions(survey,response,questions,urlDefaultAnswers){
                     value : urlDefaultAnswers[question.code],
                     responseId:response.id,
                     questionId:question.id,
+                    code : question.code,
                     interviewTime   :0
                 };
                 response.items.push(responseItem);
@@ -126,6 +127,7 @@ function mapQuestions(survey,response,questions,urlDefaultAnswers){
             responseItem = {
                 responseId:response.id,
                 questionId:question.id,
+                code : question.code,
                 interviewTime   :0,
             };
             if(question.value) {
@@ -185,20 +187,20 @@ function fillResponseItem(responseItem,state,oldResponseItem){
 
 function customSurveyResponse(action){
 
-    action.payload = {
-        survey:{id:'1',serviceId:1,userId:1,title:'性格情景调查',description:'测试的目的是反应最真实的足迹，而不是别人所期待的你。本测试时一种性格测试，从星座、血型、价值观等反应和描述测试者的性格特质。',welcomeText:'欢迎填写问卷',terminationText:'您不符合配额，提前终止',endText:'问卷到此结束，感谢你的参与！',endUrl:'/surveys',endUrlDescription:'回到问卷列表?',active:true,questionCount:10,startTime:'2010-01-01 10:00:00',expiryTime:'2020-01-01 10:00:00',createTime:'2020-01-01 10:00:00',updateTime:'2020-01-01 10:00:00',
-            setting:{surveyId:1,responseLimit:30,template:'https://wj.qq.com/themes/enterprise/assets/background_mobile.jpg',format:'QUESTION_BY_QUESTION',locale:'zh_CN',accessRule:'PUBLIC',autoRedirect:false,showWelcome:false,showProgress:false,showGroupInfo:false,showQuestionIndex:false,showResponse:false,allowPrev:false,allowSuspend:false,allowEditAfterCompletion:false,enableCaptcha:false,enableAssessment:false}},
-        response:{id:1,serviceId:1,userId:1,deviceId:'1',ipAddress:'127.0.0.1',accessToken:'123',lastQuestionId:1,submitted:false,startTime:'2020-01-01 10:00:00',items:[]},
-        questions: [],
-        view : {
-            page : 'unsubmitted'
-        }
-    };
+    // action.payload = {
+    //     survey:{id:'1',serviceId:1,userId:1,title:'性格情景调查',description:'测试的目的是反应最真实的足迹，而不是别人所期待的你。本测试时一种性格测试，从星座、血型、价值观等反应和描述测试者的性格特质。',welcomeText:'欢迎填写问卷',terminationText:'您不符合配额，提前终止',endText:'问卷到此结束，感谢你的参与！',endUrl:'/surveys',endUrlDescription:'回到问卷列表?',active:true,questionCount:10,startTime:'2010-01-01 10:00:00',expiryTime:'2020-01-01 10:00:00',createTime:'2020-01-01 10:00:00',updateTime:'2020-01-01 10:00:00',
+    //         setting:{surveyId:1,responseLimit:30,template:'https://wj.qq.com/themes/enterprise/assets/background_mobile.jpg',format:'QUESTION_BY_QUESTION',locale:'zh_CN',accessRule:'PUBLIC',autoRedirect:false,showWelcome:false,showProgress:false,showGroupInfo:false,showQuestionIndex:false,showResponse:false,allowPrev:false,allowSuspend:false,allowEditAfterCompletion:false,enableCaptcha:false,enableAssessment:false}},
+    //     response:{id:1,serviceId:1,userId:1,deviceId:'1',ipAddress:'127.0.0.1',accessToken:'123',lastQuestionId:1,submitted:false,startTime:'2020-01-01 10:00:00',items:[]},
+    //     questions: [],
+    //     view : {
+    //         page : 'unsubmitted'
+    //     }
+    // };
     // action.payload.view.page = 'submitted';
     // action.payload.survey.setting.accessRule = 'TOKEN';
     // action.payload.survey.setting.showWelcome = true;
     // action.payload.response = undefined;
-    action.payload.survey.setting.enableCaptcha = true;
+    // action.payload.survey.setting.enableCaptcha = true;
     // payload.survey.setting.showGroupInfo = false;
     // payload.survey.setting.template='https://wj.qq.com/themes/enterprise/assets/background_mobile.jpg';
 

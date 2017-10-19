@@ -194,7 +194,6 @@ class SurveyResponseApp extends Component {
         if( questionId === this.state.displayOptions.questionId ) {
             if( value && value !== this.state.displayOptions.value) {
                 conditions.value = value;
-
             }
         } else {
             if( value) {

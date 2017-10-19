@@ -69,14 +69,6 @@ class SurveyApp extends Component {
         });
     }
 
-    dispatchAction(error)  {
-        let {dispatch} = this.props;
-        let type =  ActionType.UPDATE_VIEW_STATE_BY_FETCHED_DATA;
-        this.dispatchPayload.error = error;
-        this.dispatchPayload.urlDefaultAnswers = this.getUrlDefaultAnswers();
-        dispatch({type,payload:this.dispatchPayload})
-    };
-
     fetchSurvey(){
         let {location} = this.props;
         let url = api.normalize(`${api.API_PREFIX}/${location.pathname}?projection=detail`);
@@ -98,6 +90,15 @@ class SurveyApp extends Component {
             }
         });
     }
+
+    dispatchAction(error)  {
+        let {dispatch} = this.props;
+        let type =  ActionType.UPDATE_VIEW_STATE_BY_FETCHED_DATA;
+        this.dispatchPayload.error = error;
+        this.dispatchPayload.urlDefaultAnswers = this.getUrlDefaultAnswers();
+        dispatch({type,payload:this.dispatchPayload})
+    };
+
     componentDidMount(){
         this.dispatchPayload = {};
 

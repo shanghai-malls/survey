@@ -35,9 +35,10 @@ export default class Question extends React.Component {
         if(!this.props.readOnly) {
             let dispatch = this.props.dispatch;
             let questionId = this.props.question.id;
+            let code = this.props.question.code;
             this.setState({value});
 
-            dispatch({type:ActionType.ADD_RESPONSE_ITEM,responseItem:{questionId,value}});
+            dispatch({type:ActionType.ADD_RESPONSE_ITEM,responseItem:{questionId,code,value}});
 
             if(!value) {
                 if(this.props.question.mandatory){
