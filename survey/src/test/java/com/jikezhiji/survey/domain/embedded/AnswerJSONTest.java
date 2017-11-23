@@ -15,15 +15,15 @@ public class AnswerJSONTest {
     @Test
     public void testToJson() throws IOException {
 
-        String text = "{\"responseId\":44,\"questionId\":3,\"value\":\"male\",\"submitTime\":\"2017-08-31 10:28:19.567\",\"interviewTime\":0}";
+        String text = "{\"responseId\":44,\"questionId\":3,\"code\":null,\"value\":\"male\",\"submitTime\":\"2017-08-31 10:28:19.567\",\"interviewTime\":0}";
         ResponseItem item =  objectMapper.readValue(text,ResponseItem.class);
         Assert.assertEquals(text,objectMapper.writeValueAsString(item));
 
-        text = "{\"responseId\":44,\"questionId\":4,\"value\":[\"cheap\"],\"submitTime\":\"2017-08-31 10:28:24.578\",\"interviewTime\":3}";
+        text = "{\"responseId\":44,\"questionId\":4,\"code\":null,\"value\":[\"cheap\"],\"submitTime\":\"2017-08-31 10:28:24.578\",\"interviewTime\":3}";
         item =  objectMapper.readValue(text,ResponseItem.class);
         Assert.assertEquals(text,objectMapper.writeValueAsString(item));
 
-        text = "{\"responseId\":44,\"questionId\":4,\"value\":{\"address\":\"sh\",\"lng\":22,\"lat\":33},\"submitTime\":\"2017-08-31 10:28:24.578\",\"interviewTime\":3}";
+        text = "{\"responseId\":44,\"questionId\":4,\"code\":null,\"value\":{\"address\":\"sh\",\"lng\":22,\"lat\":33},\"submitTime\":\"2017-08-31 10:28:24.578\",\"interviewTime\":3}";
         item =  objectMapper.readValue(text,ResponseItem.class);
         Assert.assertEquals(text,objectMapper.writeValueAsString(item));
     }

@@ -5,7 +5,7 @@
 
 	<groupId>com.jikezhiji</groupId>
 	<artifactId>gateway</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>gateway</name>
 
 	<parent>
